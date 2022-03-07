@@ -10,7 +10,6 @@ const port = 8000;
 const appid = "wx0e1b4f2fef3bfddd";
 const secret = "c408f89269509cf4b772478a52bb6df4";
 const multipartMiddleware = multipart();
-const userdata = require("./db/models").userdata;
 
 app.use(cors());
 //解析post请求

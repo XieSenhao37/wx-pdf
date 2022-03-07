@@ -8,25 +8,15 @@ export function changeShareCard(url, href, shareData) {
     .then((res) => {
       res = res.data;
       wx.config({
-        // debug: true,
         appId: res.appid,
         timestamp: res.timestamp,
         nonceStr: res.nonceStr,
         signature: res.signature,
-        jsApiList: [
-          "updateAppMessageShareData",
-          "updateTimelineShareData",
-          "onMenuShareAppMessage",
-          "onMenuShareTimeline",
-        ],
+        jsApiList: ["updateAppMessageShareData", "updateTimelineShareData"],
       });
       wx.ready(function () {
-        // 1.4.0 新接口 (只调用这个接口在安卓下是无效的)
         wx.updateAppMessageShareData(shareData);
         wx.updateTimelineShareData(shareData);
-        // 1.2.0 老接口
-        wx.onMenuShareAppMessage(shareData);
-        wx.onMenuShareTimeline(shareData);
       });
     })
     .catch((err) => {
@@ -34,9 +24,9 @@ export function changeShareCard(url, href, shareData) {
     });
 }
 
-export function sendUserData(code, startTime, quitTime) {
+export function sendUserData(userInfo, startTime, quitTime) {
   let data = new FormData();
-  data.append("code", code);
+  data.append("userInfo", userInfo);
   data.append("startTime", startTime);
   data.append("quitTime", quitTime);
   navigator.sendBeacon("http://42.193.159.53:8000/userData", data);

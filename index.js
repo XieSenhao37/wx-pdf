@@ -1,9 +1,4 @@
-import {
-  changeShareCard,
-  sendUserData,
-  sendCode,
-  sendTimeStamp,
-} from "./src/api.js";
+import { changeShareCard, sendUserData, sendTimeStamp } from "./src/api.js";
 
 //配置信息
 let shareData = {
@@ -61,6 +56,7 @@ if (window.location.href.length < 30) {
   changeShareCard("/customize", href, shareData);
   let code = window.location.search.split("&")[0].split("=")[1];
   let userInfo; //后端返回的用户信息
+  let startTime, quitTime;
 
   //监听页面打开
   window.addEventListener("load", () => {
@@ -71,7 +67,6 @@ if (window.location.href.length < 30) {
     userInfo = info.data;
     console.log(userInfo);
     let isBack = false;
-    let startTime, quitTime;
     let timer = setInterval(() => {
       sendTimeStamp("/timeStamp", userInfo);
     }, 3000); //开启定时器
@@ -110,7 +105,7 @@ if (window.location.href.length < 30) {
     window.addEventListener("pagehide", () => {
       if (!isBack) {
         quitTime = formatDateTime(new Date());
-        sendUserData(code, startTime, quitTime);
+        sendUserData(userInfo, startTime, quitTime);
       }
     });
   });
